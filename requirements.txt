@@ -1,0 +1,5 @@
+flask-sqlalchemy
+lxml
+pip-chill
+pymysql
+python-dotenv
