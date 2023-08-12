@@ -3,3 +3,4 @@ lxml
 pip-chill
 pymysql
 python-dotenv
+gunicorn
