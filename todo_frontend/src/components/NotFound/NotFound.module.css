@@ -1,0 +1,22 @@
+.NotFoundPageContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NotFoundErrorBox {
+    position: relative;
+    font-size: 2em;
+    text-align: center;
+}
+
+.ErrorCodeWaterMark {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    text-align: center;
+    font-size: 50vmin;
+    opacity: .05;
+}

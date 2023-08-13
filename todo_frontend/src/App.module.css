@@ -1,0 +1,13 @@
+.App {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+}
+
+.AppHeader {
+  flex: 0 0 auto;
+}
+
+.AppContent {
+  flex: 1 1 auto;
+}

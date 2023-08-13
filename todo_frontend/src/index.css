@@ -1,5 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Light theme color pallete */
+  --primary-light: #0077B6;
+  --secondary-bg-light: #EDEDED;
+  --positive-feed-light: #228B22;
+  --errors-feed-light: #DC143C;
+  --secondary-btns-light: #6A7B8B;
+  --highlights-light: #DAA520;
+  /* Dark theme color pallete */
+  --primary-dark: #0D47A1;
+  --secondary-bg-dark: #333333;
+  --positive-feed-dark: #8BC34A;
+  --errors-feed-dark: #FF5733;
+  --secondary-btns-dark: #B0BEC5;
+  --highlights-dark: #FFC107;
+}
+
 body {
   margin: 0;
+  padding: 0;
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
