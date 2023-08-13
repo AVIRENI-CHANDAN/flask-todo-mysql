@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from dotenv import load_dotenv
 import os
 
@@ -17,6 +17,7 @@ STATIC_FOLDER = os.environ.get("static_folder")
 STATIC_URL = os.environ.get("static_url")
 REFERENCE_PATTERN = r"^\{\{url_for\('static', filename='[^']*'\)\}\}$"
 REFERENCE_VALUE_ATTRIBUTES = {"link": "href", "script": "src"}
+DEBUG = os.environ.get("FLASK_DEBUG")
 
 app = Flask(
     __name__,
@@ -32,10 +33,11 @@ app.config[
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
-@app.get("/")
-def index():
-    return "Hello world"
+@app.get("/", defaults={"path": ""})
+@app.get("/<path:path>")
+def hello(path):
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=(DEBUG == "1"))
