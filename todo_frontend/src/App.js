@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header/Header';
 import NotFound from './components/NotFound/NotFound';
+import Home from './components/Home/Home';
 
 class App extends Component {
   render() {
@@ -14,9 +15,15 @@ class App extends Component {
         <div className={style.AppContent}>
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<Home />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
+        </div>
+        <div className={style.FooterBox}>
+          <footer className={style.Footer}>
+            <p className={style.FooterText}>Copyright © 2023 Todo Application. All rights reserved.</p>
+          </footer>
         </div>
       </div>
     );

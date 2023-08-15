@@ -10,4 +10,26 @@
 
 .AppContent {
   flex: 1 1 auto;
+  overflow: scroll;
+}
+
+.FooterBox {
+  flex: 0 0 auto;
+  padding: 0;
+  user-select: none;
+  pointer-events: none;
+  opacity: .5;
+}
+
+.Footer {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.FooterText {
+  margin: 0;
+  font-size: 6px;
+  padding: 0;
+  text-align: center;
 }
