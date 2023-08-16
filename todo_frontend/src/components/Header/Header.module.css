@@ -59,6 +59,6 @@
 }
 
 .NavigationMenu li a:hover {
-    background-color: rgba(255, 255, 255, .15);
+    background-color: var(--secondary-btns-light);
     mix-blend-mode: luminosity;
 }

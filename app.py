@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from dotenv import load_dotenv
 import os
 
@@ -34,9 +34,19 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
 @app.get("/", defaults={"path": ""})
-@app.get("/<path:path>")
-def hello(path):
+@app.get("/<path>")
+def index(path):
+    print("Path:", path)
     return render_template("index.html")
+
+
+@app.post("/login")
+def login():
+    form_data = request.form
+    print(form_data)
+    print(APP_USER == form_data["username"])
+    print(APP_PASSWORD == form_data["password"])
+    return redirect("/home")
 
 
 if __name__ == "__main__":
