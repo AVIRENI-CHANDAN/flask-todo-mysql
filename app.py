@@ -3,7 +3,6 @@ from flask import jsonify, session, url_for
 from dotenv import load_dotenv
 import os
 from models import db, User, Task
-from sqlalchemy.exc import IntegrityError
 import logging
 
 load_dotenv()
@@ -41,11 +40,10 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 @app.get("/login")
 @app.get("/about")
 def index():
-    logging.info("Requesting path:", request.endpoint)
-    print("Requesting path:", request.endpoint)
+    logging.info("Requesting path:", request.url)
     if "user_id" in session:
         logging.info(
-            "Redirecting to:", url_for(home_index.__name__), "from", request.path
+            "Redirecting to:", url_for(home_index.__name__), "from", request.url
         )
         return redirect(url_for(home_index.__name__))
     return render_template("index.html"), 200
@@ -60,14 +58,14 @@ def login():
     try:
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
-            session["user_id"] = user.id
             logging.info(
                 "Credentials valid and redirected to", url_for(home_index.__name__)
             )
+            session["user_id"] = user.id
             return redirect(url_for(home_index.__name__))
-    except Exception:
-        pass
-    logging.info("Reedirecting to", "/login")
+    except Exception as e:
+        logging.error(e)
+    logging.info("Redirecting to", "/login")
     return redirect("/login", code=200)
 
 
@@ -109,7 +107,6 @@ def get_all_tasks():
 
 @app.post("/task/new")
 def new_task():
-    print("Sesion:", session)
     if not "user_id" in session:
         logging.info("Not authnetic, Redirecting to /login")
         return redirect("/login")
@@ -122,6 +119,7 @@ def new_task():
 
 
 def initialize_app():
+    logging.info("Initializing application")
     with app.app_context():
         db.init_app(app)
         db.create_all()
@@ -135,6 +133,6 @@ def initialize_app():
             db.session.commit()
 
 
+initialize_app()
 if __name__ == "__main__":
-    initialize_app()
     app.run(debug=(DEBUG == "1"))
