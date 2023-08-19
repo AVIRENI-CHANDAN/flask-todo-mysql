@@ -1,0 +1,83 @@
+.FormContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+}
+
+.NewTaskForm {
+    width: min(100%, 800px);
+    padding: 12px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 12px;
+}
+
+.FormGroup {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+}
+
+.FormField {
+    flex: 1 1 auto;
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.FormField>* {
+    flex: 1;
+}
+
+.FormField input {
+    order: 2;
+    outline: none;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid gray;
+    background-color: transparent;
+}
+
+.FormField label {
+    order: 1;
+    font-size: small;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    text-transform: capitalize;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transition: all .5s ease-in-out;
+    z-index: -1;
+    opacity: .5;
+    text-transform: capitalize;
+}
+
+.ActiveLabel {
+    height: 50% !important;
+    width: 30% !important;
+    font-size: x-small !important;
+    transform: translateY(-10px);
+    opacity: 1 !important;
+}
+
+
+.Btn {
+    padding: 8px;
+    background-color: var(--primary-light);
+    border: 1px solid gray;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: whitesmoke;
+    font-weight: bold;
+    transition: all .5s ease-in-out;
+}
+
+.Btn:hover {
+    box-shadow: 0 2px 8px -1px var(--primary-light);
+}

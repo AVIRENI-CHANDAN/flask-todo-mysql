@@ -1,0 +1,14 @@
+.Dashboard {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.NewTaskForm {
+    flex: 0 0 5rem;
+}
+
+.TaskListBox {
+    overflow: scroll;
+    flex: 1 1 auto;
+}

@@ -1,0 +1,94 @@
+.TaskList {
+    height: 100%;
+    margin: 0;
+    padding: 24px;
+    list-style: none;
+    gap: 12px;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: scroll;
+}
+
+.Task {
+    border: 1px solid rgba(128, 128, 128, .15);
+    box-shadow: 0 6px 8px -8px gray;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 12px;
+    position: relative;
+}
+
+.TaskStatus {
+    content: '  ';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 0;
+    margin: 0;
+    font-size: .75em;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.TaskStatusDue {
+    background-color: rgba(255, 0, 0, .1);
+}
+
+.TaskStatusDone {
+    background-color: rgba(0, 128, 0, .1);
+}
+
+.TaskTitle {
+    font-size: large;
+    padding: 0 12px;
+    text-transform: uppercase;
+}
+
+.TaskDescription {
+    font-size: small;
+}
+
+.TaskTimeLines {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+    justify-content: space-between;
+    font-size: small;
+    padding: 12px 0;
+}
+
+.DueDate,
+.CreateDate {
+    flex: 0 0 auto;
+    padding: 12px 8px;
+    position: relative;
+}
+
+.DueDate {
+    border-radius: 8px;
+    border: none;
+    border-bottom: 1px solid rgba(128, 128, 128, .5);
+    font-weight: bold;
+}
+
+.CreateDate {
+    opacity: .5;
+}
+
+.DueDate::before,
+.CreateDate::before {
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    font-weight: normal;
+}
+
+.DueDate::before {
+    content: 'due';
+}
+
+.CreateDate::before {
+    content: 'created on -';
+}

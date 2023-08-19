@@ -3,6 +3,15 @@ import style from './Header.module.css';
 
 class Header extends Component {
     render() {
+        console.log("Props:", this.props);
+        const currentPath = window.location.pathname;
+        console.log("Header.js - path", currentPath);
+        const links = [
+            (currentPath === "/" || currentPath === "/login" || currentPath === "/about") && (<li><a href="/login">Login</a></li>),
+            (currentPath === "/" || currentPath === "/login" || currentPath === "/about") && (<li><a href="/about">About</a></li>),
+            (!(currentPath === "/" || currentPath === "/login" || currentPath === "/about")) && (<li><a href="/logout">logout</a></li>)
+        ];
+
         return (
             <div className={style.Header}>
                 <div className={style.Title}>
@@ -10,8 +19,7 @@ class Header extends Component {
                 </div>
                 <div className={style.NavigationMenuBox}>
                     <ul className={style.NavigationMenu}>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/about">About</a></li>
+                        {links}
                     </ul>
                 </div>
             </div>
