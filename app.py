@@ -42,6 +42,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 @app.get("/about")
 def index():
     logging.info("Requesting path:", request.endpoint)
+    print("Requesting path:", request.endpoint)
     if "user_id" in session:
         logging.info(
             "Redirecting to:", url_for(home_index.__name__), "from", request.path
@@ -120,16 +121,20 @@ def new_task():
     return redirect(url_for(home_index.__name__), code=200)
 
 
-if __name__ == "__main__":
-    db.init_app(app)
+def initialize_app():
     with app.app_context():
+        db.init_app(app)
         db.create_all()
-    try:
-        super_user = User(username=APP_USER, email=APP_USER_MAIL, password=APP_PASSWORD)
-        with app.app_context():
+
+        super_user = User.query.filter_by(username=APP_USER).first()
+        if not super_user:
+            super_user = User(
+                username=APP_USER, email=APP_USER_MAIL, password=APP_PASSWORD
+            )
             db.session.add(super_user)
             db.session.commit()
-    except IntegrityError:
-        # Super user exists
-        pass
+
+
+if __name__ == "__main__":
+    initialize_app()
     app.run(debug=(DEBUG == "1"))
