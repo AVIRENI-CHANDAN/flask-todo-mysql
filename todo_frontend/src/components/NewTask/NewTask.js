@@ -51,6 +51,7 @@ class NewTask extends Component {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            console.log(response);
         } catch (error) {
             console.error('Error:', error);
         }
