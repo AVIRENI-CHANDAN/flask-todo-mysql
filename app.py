@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from models import db, User, Task
 from sqlalchemy.exc import IntegrityError
+import logging
 
 load_dotenv()
 
@@ -40,8 +41,11 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 @app.get("/login")
 @app.get("/about")
 def index():
-    print(request.endpoint)
+    logging.info("Requesting path:", request.endpoint)
     if "user_id" in session:
+        logging.info(
+            "Redirecting to:", url_for(home_index.__name__), "from", request.path
+        )
         return redirect(url_for(home_index.__name__))
     return render_template("index.html"), 200
 
@@ -51,18 +55,24 @@ def login():
     form_data = request.form
     username = form_data["username"]
     password = form_data["password"]
+    logging.info("Received credentials for logging")
     try:
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             session["user_id"] = user.id
+            logging.info(
+                "Credentials valid and redirected to", url_for(home_index.__name__)
+            )
             return redirect(url_for(home_index.__name__))
     except Exception:
         pass
-    return redirect(request.path, code=200)
+    logging.info("Reedirecting to", url_for(login.__name__))
+    return redirect(url_for(login.__name__), code=200)
 
 
 @app.get("/logout")
 def logout():
+    logging.info("Logging out and redirecting to:", url_for(login.__name__))
     session.clear()
     return redirect(url_for(login.__name__))
 
@@ -70,6 +80,7 @@ def logout():
 @app.get("/home")
 def home_index():
     if not "user_id" in session:
+        logging.info("Not authnetic, Redirecting to", url_for(login.__name__))
         return redirect(url_for(login.__name__))
     return render_template("index.html"), 200
 
@@ -77,6 +88,7 @@ def home_index():
 @app.get("/task/all")
 def get_all_tasks():
     if not "user_id" in session:
+        logging.info("Not authnetic, Redirecting to /login")
         return redirect("/login")
     tasks = Task.query.all()
     data = [
@@ -98,6 +110,7 @@ def get_all_tasks():
 def new_task():
     print("Sesion:", session)
     if not "user_id" in session:
+        logging.info("Not authnetic, Redirecting to /login")
         return redirect("/login")
     form_data = request.form
     task = Task(title=form_data["title"], description=form_data["description"])
