@@ -32,7 +32,6 @@ class NewTask extends Component {
 
     handleInputBlur(event) {
         const label_classes = event.target.labels[0].className.split(' ').filter((cls) => cls !== "");
-        // console.log("Input blur: value:", this.state[event.target.name]);
         if (label_classes.includes(style.ActiveLabel) && (this.state[event.target.name] === "")) {
             label_classes.splice(label_classes.indexOf(style.ActiveLabel));
         }
@@ -52,7 +51,6 @@ class NewTask extends Component {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('Response:', response.data);
         } catch (error) {
             console.error('Error:', error);
         }
