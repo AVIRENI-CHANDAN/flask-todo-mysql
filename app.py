@@ -66,22 +66,22 @@ def login():
             return redirect(url_for(home_index.__name__))
     except Exception:
         pass
-    logging.info("Reedirecting to", url_for(login.__name__))
-    return redirect(url_for(login.__name__), code=200)
+    logging.info("Reedirecting to", "/login")
+    return redirect("/login", code=200)
 
 
 @app.get("/logout")
 def logout():
-    logging.info("Logging out and redirecting to:", url_for(login.__name__))
+    logging.info("Logging out and redirecting to:", "/login")
     session.clear()
-    return redirect(url_for(login.__name__))
+    return redirect("/login")
 
 
 @app.get("/home")
 def home_index():
     if not "user_id" in session:
-        logging.info("Not authnetic, Redirecting to", url_for(login.__name__))
-        return redirect(url_for(login.__name__))
+        logging.info("Not authnetic, Redirecting to", "/login")
+        return redirect("/login")
     return render_template("index.html"), 200
 
 
