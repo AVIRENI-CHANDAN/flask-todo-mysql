@@ -1,12 +1,26 @@
 import { Component } from "react";
 import style from './Header.module.css';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 class Header extends Component {
-    render() {
-        const currentPath = window.location.pathname;
-        const navMenuBarStatus = (currentPath === "/" || currentPath === "/login" || currentPath === "/about");
+    constructor(props) {
+        super(props);
+        this.state = {
+            session: undefined
+        }
+    }
 
+    componentDidMount() {
+        console.log("Header component mounted:", Cookies.get('session'));
+        this.setState({
+            session: Cookies.get('session')
+        });
+    }
+
+    render() {
+        const navMenuBarStatus = this.state.session === undefined;
+        console.log("Session status:", navMenuBarStatus, Cookies.get('session'));
         return (
             <div className={style.Header}>
                 <div className={style.Title}>
@@ -14,8 +28,8 @@ class Header extends Component {
                 </div>
                 <div className={style.NavigationMenuBox}>
                     <ul className={style.NavigationMenu}>
+                        <li><Link to="/about">About</Link></li>
                         {navMenuBarStatus && (<li><Link to="/login">Login</Link></li>)}
-                        {navMenuBarStatus && (<li><Link to="/about">About</Link></li>)}
                         {(!navMenuBarStatus) && (<li><Link to="/logout">logout</Link></li>)}
                     </ul>
                 </div>
