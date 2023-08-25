@@ -12,7 +12,7 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        console.log("Header component mounted:", Cookies.get('session'));
+        // console.log("Header component mounted:", Cookies.get('session'));
         this.setState({
             session: Cookies.get('session')
         });
@@ -20,7 +20,7 @@ class Header extends Component {
 
     render() {
         const navMenuBarStatus = this.state.session === undefined;
-        console.log("Session status:", navMenuBarStatus, Cookies.get('session'));
+        // console.log("Session status:", navMenuBarStatus, Cookies.get('session'));
         return (
             <div className={style.Header}>
                 <div className={style.Title}>
