@@ -1,5 +1,6 @@
 import { Component } from "react";
 import style from './Login.module.css';
+import { USER_LOGIN } from "../Links";
 
 class Login extends Component {
     constructor() {
@@ -38,7 +39,7 @@ class Login extends Component {
     render() {
         return (
             <div className={style.Login}>
-                <form method="post" className={style.LoginForm}>
+                <form method="post" className={style.LoginForm} action={USER_LOGIN}>
                     <div className={style.FormField}>
                         <label htmlFor="username">Username</label>
                         <input type="text" name="username" id="username" onInput={this.handleInputChange} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} value={this.state.username} />

@@ -102,6 +102,8 @@ def get_all_tasks():
         }
         for task in tasks
     ]
+    data.sort(key=lambda x: x.get("due_date"))
+    data.sort(key=lambda x: x.get("completed"))
     return jsonify(data), 200
 
 

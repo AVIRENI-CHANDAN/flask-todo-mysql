@@ -1,5 +1,7 @@
 import { Component } from "react";
+import axios from 'axios';
 import style from './TaskList.module.css';
+import { TASK_LIST_ENDPOINT } from "../Links";
 
 class TaskList extends Component {
     constructor(props) {
@@ -11,13 +13,12 @@ class TaskList extends Component {
     }
 
     componentDidMount() {
-        // Fetch data when the component mounts
-        fetch('/task/all') // Replace with your API endpoint URL
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ data, isLoading: false });
+        axios.get(TASK_LIST_ENDPOINT)
+            .then(response => {
+                console.log("Response Data:", response.data);
+                this.setState({ data: response.data, isLoading: false });
             })
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => { console.error('Error fetching data:', error); });
     }
 
     render() {
@@ -29,8 +30,9 @@ class TaskList extends Component {
         return (
             <ol className={style.TaskList}>
                 {data.map((item) => (
+
                     <li key={item.id} className={style.Task}>
-                        <p className={[style.TaskStatus, (item.completed ? style.TaskStatusDone : style.TaskStatusDue)].join(' ')}>{(item.completed) ? "completed" : "due"}</p>
+                        <p className={[style.TaskStatus, (item.completed ? style.TaskStatusDone : style.TaskStatusDue)].join(' ')}>{(item.completed) ? "done" : "due"}</p>
                         <div className={style.TaskTitle}>{item.title}</div>
                         <div className={style.TaskDescription}>{item.description}</div>
                         <div className={style.TaskTimeLines}>
@@ -38,6 +40,7 @@ class TaskList extends Component {
                             <div className={style.CreateDate}>{item.created_at}</div>
                         </div>
                     </li>
+
                 ))}
             </ol>
         );

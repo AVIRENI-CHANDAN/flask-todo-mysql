@@ -11,24 +11,24 @@ class App extends Component {
   render() {
     return (
       <div className={style.App}>
-        <div className={style.AppHeader}>
-          <Header />
-        </div>
-        <div className={style.AppContent}>
-          <BrowserRouter>
+        <BrowserRouter>
+          <div className={style.AppHeader}>
+            <Header />
+          </div>
+          <div className={style.AppContent}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/home" element={<Dashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
-        </div>
-        <div className={style.FooterBox}>
-          <footer className={style.Footer}>
-            <p className={style.FooterText}>Copyright © 2023 Todo Application. All rights reserved.</p>
-          </footer>
-        </div>
+          </div>
+          <div className={style.FooterBox}>
+            <footer className={style.Footer}>
+              <p className={style.FooterText}>Copyright © 2023 Todo Application. All rights reserved.</p>
+            </footer>
+          </div>
+        </BrowserRouter>
       </div>
     );
   }

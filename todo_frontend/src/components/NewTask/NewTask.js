@@ -1,6 +1,7 @@
 import { Component } from "react";
 import style from './NewTask.module.css';
 import axios from 'axios';
+import { NEW_TASK_ENDPOINT } from "../Links";
 
 class NewTask extends Component {
     constructor() {
@@ -46,7 +47,7 @@ class NewTask extends Component {
         formData.append('description', this.state.description);
 
         try {
-            const response = await axios.post('/task/new', formData, {
+            const response = await axios.post(NEW_TASK_ENDPOINT, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

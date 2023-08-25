@@ -1,5 +1,6 @@
 import { Component } from "react";
 import style from './Home.module.css';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
     render() {
@@ -9,7 +10,7 @@ class Home extends Component {
                     <header className={style.Header}>
                         <h1 className={style.Title}>Todo Application</h1>
                         <p className={style.Description}>Your ultimate task manager</p>
-                        <a className={style.GetStartedButton} href="/login">Get Started</a>
+                        <Link className={style.GetStartedButton} to="/login">Get Started</Link>
                     </header>
                     <section className={style.Features}>
                         <div className={style.Feature}>
