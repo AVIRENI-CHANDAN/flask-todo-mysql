@@ -15,7 +15,7 @@ class TaskList extends Component {
     componentDidMount() {
         axios.get(TASK_LIST_ENDPOINT)
             .then(response => {
-                console.log("Response Data:", response.data);
+                // console.log("Response Data:", response.data);
                 this.setState({ data: response.data, isLoading: false });
             })
             .catch(error => { console.error('Error fetching data:', error); });

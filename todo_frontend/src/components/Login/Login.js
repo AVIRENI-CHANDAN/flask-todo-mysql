@@ -2,6 +2,7 @@ import { Component } from "react";
 import style from './Login.module.css';
 import { USER_LOGIN } from "../Links";
 import { Navigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
 class Login extends Component {
     constructor() {
@@ -9,12 +10,21 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            next: ''
+            next: undefined
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputFocus = this.handleInputFocus.bind(this);
         this.handleInputBlur = this.handleInputBlur.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        // console.log("Login component mounted:", Cookies.get('session'));
+        if (Cookies.get('session') !== undefined) {
+            this.setState({
+                next: '/home'
+            });
+        }
     }
 
     handleInputChange(event) {
@@ -45,16 +55,15 @@ class Login extends Component {
         const formData = new FormData();
         formData.append('username', this.state.username);
         formData.append('password', this.state.password);
-        console.log("Form data:", formData);
+        // console.log("Form data:", formData);
         try {
             const response = await fetch(USER_LOGIN, {
                 method: 'POST',
                 body: formData
             });
             if (response.redirected) {
-                console.log(response);
+                // console.log(response);
                 const redirectUrlObject = new URL(response.url);
-                console.log("Thew reidrection path:", redirectUrlObject.pathname, redirectUrlObject);
                 this.setState({
                     next: redirectUrlObject.pathname
                 });
@@ -67,7 +76,7 @@ class Login extends Component {
 
     render() {
         return (
-            this.state.next === "" ?
+            this.state.next === undefined ?
                 (<div className={style.Login}>
                     <form className={style.LoginForm} onSubmit={this.handleSubmit}>
                         <div className={style.FormField}>
