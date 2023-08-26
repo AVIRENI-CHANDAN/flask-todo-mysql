@@ -2,6 +2,7 @@ import { Component } from "react";
 import style from './Header.module.css';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { USER_LOGIN } from "../Links";
 
 class Header extends Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        // console.log("Header component mounted:", Cookies.get('session'));
+        console.log("Header component mounted:", Cookies.get('session'), document.cookie);
         this.setState({
             session: Cookies.get('session')
         });
@@ -20,7 +21,7 @@ class Header extends Component {
 
     render() {
         const navMenuBarStatus = this.state.session === undefined;
-        // console.log("Session status:", navMenuBarStatus, Cookies.get('session'));
+        console.log("Session status:", navMenuBarStatus, Cookies.get('session'));
         return (
             <div className={style.Header}>
                 <div className={style.Title}>
@@ -29,7 +30,7 @@ class Header extends Component {
                 <div className={style.NavigationMenuBox}>
                     <ul className={style.NavigationMenu}>
                         <li><Link to="/about">About</Link></li>
-                        {navMenuBarStatus && (<li><Link to="/login">Login</Link></li>)}
+                        {navMenuBarStatus && (<li><Link to={USER_LOGIN}>Login</Link></li>)}
                         {(!navMenuBarStatus) && (<li><Link to="/logout">logout</Link></li>)}
                     </ul>
                 </div>

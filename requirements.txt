@@ -1,6 +1,7 @@
+flask-jwt-extended
 flask-sqlalchemy
+gunicorn
 lxml
 pip-chill
 pymysql
 python-dotenv
-gunicorn

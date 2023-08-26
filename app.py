@@ -1,5 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, Response
 from flask import jsonify, session, url_for
+from flask_jwt_extended import (
+    JWTManager,
+    create_access_token,
+    jwt_required,
+    get_jwt_identity,
+    verify_jwt_in_request,
+)
 from dotenv import load_dotenv
 import os
 from models import db, User, Task
@@ -30,10 +37,12 @@ app = Flask(
 )
 
 app.config["SECRET_KEY"] = SECRET_KEY
+app.config["JWT_SECRET_KEY"] = SECRET_KEY
 app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+jwt = JWTManager(app)
 
 
 @app.get("/")
@@ -50,23 +59,30 @@ def index():
 
 
 @app.post("/login")
+@jwt_required(optional=True)  # Allow missing token
 def login():
-    form_data = request.form
-    username = form_data["username"]
-    password = form_data["password"]
-    logging.info("Received credentials for logging")
     try:
+        verify_jwt_in_request()
+        return jsonify({"token_valid": True, "next": "/home"}), 200
+    except:
+        pass
+
+    try:
+        form_data = request.form
+        username = form_data["username"]
+        password = form_data["password"]
+        logging.info("Received credentials for logging")
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             logging.info(
                 "Credentials valid and redirected to", url_for(home_index.__name__)
             )
-            session["user_id"] = user.id
-            return redirect(url_for(home_index.__name__))
+            access_token = create_access_token(identity=username)
+            return jsonify({"next": "/home", "access_token": access_token}), 301
     except Exception as e:
         logging.error(e)
     logging.info("Redirecting to", "/login")
-    return redirect("/login", code=200)
+    return jsonify({"next": "/login", "message": "Credentials Invalid"}), 401
 
 
 @app.get("/logout")
@@ -77,18 +93,20 @@ def logout():
 
 
 @app.get("/home")
+@jwt_required()
 def home_index():
-    if not "user_id" in session:
-        logging.info("Not authnetic, Redirecting to", "/login")
-        return redirect("/login")
+    current_user = get_jwt_identity()
+    print("home_index - current_user:", current_user)
     return render_template("index.html"), 200
 
 
 @app.get("/task/all")
+@jwt_required()
 def get_all_tasks():
-    if not "user_id" in session:
-        logging.info("Not authnetic, Redirecting to /login")
-        return redirect("/login")
+    print("At endpoint: get_all_tasks")
+    verify_jwt_in_request()
+    current_user = get_jwt_identity()
+    print("get_all_tasks - current_user:", current_user)
     tasks = Task.query.all()
     data = [
         {
@@ -108,16 +126,25 @@ def get_all_tasks():
 
 
 @app.post("/task/new")
+@jwt_required()
 def new_task():
-    if not "user_id" in session:
-        logging.info("Not authnetic, Redirecting to /login")
-        return redirect("/login")
+    verify_jwt_in_request()
     form_data = request.form
     task = Task(title=form_data["title"], description=form_data["description"])
     with app.app_context():
         db.session.add(task)
         db.session.commit()
-    return redirect(url_for(home_index.__name__), code=200)
+    return jsonify({"status": "Task added"}), 200
+
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({"message": "Unauthorized"}), 401
+
+
+@app.errorhandler(422)
+def unprocessable_entity(error):
+    return jsonify({"message": "Unprocessable entity"}), 422
 
 
 def initialize_app():

@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import style from './NewTask.module.css';
 import axios from 'axios';
 import { NEW_TASK_ENDPOINT } from "../Links";
@@ -9,8 +9,11 @@ class NewTask extends Component {
         this.state = {
             title: '',
             description: '',
-            completed: false
+            completed: false,
+            next: undefined
         }
+        this.title_label_ref = React.createRef();
+        this.description_label_ref = React.createRef();
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputFocus = this.handleInputFocus.bind(this);
         this.handleInputBlur = this.handleInputBlur.bind(this);
@@ -32,11 +35,19 @@ class NewTask extends Component {
     }
 
     handleInputBlur(event) {
-        const label_classes = event.target.labels[0].className.split(' ').filter((cls) => cls !== "");
-        if (label_classes.includes(style.ActiveLabel) && (this.state[event.target.name] === "")) {
-            label_classes.splice(label_classes.indexOf(style.ActiveLabel));
+        try {
+            const label_classes = event.target.labels[0].className.split(' ').filter((cls) => cls !== "");
+            if (label_classes.includes(style.ActiveLabel) && (this.state[event.target.name] === "")) {
+                label_classes.splice(label_classes.indexOf(style.ActiveLabel));
+            }
+            event.target.labels[0].className = label_classes.join(' ');
         }
-        event.target.labels[0].className = label_classes.join(' ');
+        catch {
+            let title_label = this.title_label_ref.current;
+            let description_label = this.description_label_ref.current;
+            title_label.className = '';
+            description_label.className = '';
+        }
     }
 
     async handleSubmit(event) {
@@ -47,13 +58,20 @@ class NewTask extends Component {
         formData.append('description', this.state.description);
 
         try {
+            const token = localStorage.getItem("access_token");
             const response = await axios.post(NEW_TASK_ENDPOINT, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
                 },
             });
+            this.setState({
+                title: '',
+                description: ''
+            })
+            console.log(response);
+            this.handleInputBlur(this);
             this.props.updateParent();
-            // console.log(response);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -65,11 +83,11 @@ class NewTask extends Component {
                 <form method="post" className={style.NewTaskForm} onSubmit={this.handleSubmit}>
                     <div className={style.FormGroup}>
                         <div className={style.FormField}>
-                            <label htmlFor="title">title</label>
+                            <label htmlFor="title" ref={this.title_label_ref}>title</label>
                             <input type="text" name="title" id="title" onInput={this.handleInputChange} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} value={this.state.title} />
                         </div>
                         <div className={style.FormField}>
-                            <label htmlFor="description">description</label>
+                            <label htmlFor="description" ref={this.description_label_ref}>description</label>
                             <input type="text" name="description" id="description" onInput={this.handleInputChange} onFocus={this.handleInputFocus} onBlur={this.handleInputBlur} value={this.state.description} />
                         </div>
                     </div>

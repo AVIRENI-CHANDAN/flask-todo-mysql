@@ -6,7 +6,8 @@ let ENVIRONMENT_LINK = "";
     :
     ENVIRONMENT_LINK = "";
 
-
+export const BASE_PATH = ENVIRONMENT_LINK + '/';
 export const NEW_TASK_ENDPOINT = ENVIRONMENT_LINK + '/task/new';
 export const TASK_LIST_ENDPOINT = ENVIRONMENT_LINK + '/task/all';
 export const USER_LOGIN = ENVIRONMENT_LINK + "/login";
+export const USER_HOME = ENVIRONMENT_LINK + "/home";

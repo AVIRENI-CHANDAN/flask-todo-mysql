@@ -6,20 +6,42 @@ import NotFound from './components/NotFound/NotFound';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
+import { BASE_PATH, USER_HOME, USER_LOGIN } from './components/Links';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loaded: false
+    }
+  }
+  componentDidMount() {
+    this.setState({ loaded: true });
+  }
+  componentDidUpdate() {
+    if (!this.state.loaded) {
+      this.setState({ loaded: true });
+    }
+  }
+  toogleRefresh = () => {
+    console.log("Parent update triggered");
+    this.setState({ loaded: !this.state.loaded });
+  }
+
   render() {
     return (
       <div className={style.App}>
         <BrowserRouter>
           <div className={style.AppHeader}>
-            <Header />
+            {this.state.loaded && (
+              <Header />
+            )}
           </div>
           <div className={style.AppContent}>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/home" element={<Dashboard />} />
+              <Route path={BASE_PATH} element={<Home />} />
+              <Route path={USER_LOGIN} element={<Login updateParent={this.toogleRefresh} />} />
+              <Route path={USER_HOME} element={<Dashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

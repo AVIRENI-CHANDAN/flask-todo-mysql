@@ -13,13 +13,18 @@ class TaskList extends Component {
     }
 
     componentDidMount() {
-        axios.get(TASK_LIST_ENDPOINT)
-            .then(response => {
-                // console.log("Response Data:", response.data);
-                this.setState({ data: response.data, isLoading: false });
-            })
-            .catch(error => { console.error('Error fetching data:', error); });
+        const token = localStorage.getItem("access_token");
+        axios.get(TASK_LIST_ENDPOINT, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then(response => {
+            this.setState({ data: response.data, isLoading: false });
+        }).catch(error => {
+            console.error('Error fetching data:', error);
+        });
     }
+
 
     render() {
         const { data, isLoading } = this.state;
