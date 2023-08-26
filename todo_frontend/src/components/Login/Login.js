@@ -25,10 +25,8 @@ class Login extends Component {
                     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                 },
             });
-
             if (response.status === 200) {
                 const data = await response.json();
-                console.log("Response data:", data);
                 if (data.token_valid)
                     this.setState({ next: data['next'] })
             } else {
@@ -37,6 +35,7 @@ class Login extends Component {
         } catch (error) {
             console.error('Error checking token:', error);
         }
+        this.props.updateParent();
     }
 
     handleInputChange(event) {
@@ -67,13 +66,11 @@ class Login extends Component {
         const formData = new FormData();
         formData.append('username', this.state.username);
         formData.append('password', this.state.password);
-        // console.log("Form data:", formData);
         try {
             const response = await fetch(USER_LOGIN, {
                 method: 'POST',
                 body: formData
             });
-            console.log("Response after user login:", response);
             const reader = response.body.getReader();
             let response_body = '';
             while (true) {
@@ -84,15 +81,13 @@ class Login extends Component {
                 response_body += new TextDecoder().decode(value);
             }
             response_body = JSON.parse(response_body);
-            console.log("The value:", response_body, response_body['next']);
             localStorage.setItem("access_token", response_body["access_token"]);
             this.setState({
                 next: response_body['next']
             });
-            this.props.updateParent();
         }
         catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 

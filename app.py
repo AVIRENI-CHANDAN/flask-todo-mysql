@@ -86,10 +86,11 @@ def login():
 
 
 @app.get("/logout")
+@jwt_required()
 def logout():
     logging.info("Logging out and redirecting to:", "/login")
     session.clear()
-    return redirect("/login")
+    return "", 200
 
 
 @app.get("/home")

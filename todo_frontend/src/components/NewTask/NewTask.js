@@ -59,7 +59,7 @@ class NewTask extends Component {
 
         try {
             const token = localStorage.getItem("access_token");
-            const response = await axios.post(NEW_TASK_ENDPOINT, formData, {
+            await axios.post(NEW_TASK_ENDPOINT, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
@@ -69,7 +69,6 @@ class NewTask extends Component {
                 title: '',
                 description: ''
             })
-            console.log(response);
             this.handleInputBlur(this);
             this.props.updateParent();
         } catch (error) {

@@ -14,6 +14,7 @@ class Dashboard extends Component {
         this.setState({
             reload: true
         })
+        this.props.updateParent();
     }
     componentDidUpdate() {
         if (!this.state.reload) {
