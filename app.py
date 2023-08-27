@@ -48,7 +48,6 @@ jwt = JWTManager(app)
 @app.get("/")
 @app.get("/login")
 @app.get("/about")
-@app.get("/home")
 def index():
     return render_template("index.html"), 200
 
