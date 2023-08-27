@@ -48,13 +48,8 @@ jwt = JWTManager(app)
 @app.get("/")
 @app.get("/login")
 @app.get("/about")
+@app.get("/home")
 def index():
-    logging.info("Requesting path:", request.url)
-    if "user_id" in session:
-        logging.info(
-            "Redirecting to:", url_for(home_index.__name__), "from", request.url
-        )
-        return redirect(url_for(home_index.__name__))
     return render_template("index.html"), 200
 
 
@@ -94,10 +89,7 @@ def logout():
 
 
 @app.get("/home")
-@jwt_required()
 def home_index():
-    current_user = get_jwt_identity()
-    print("home_index - current_user:", current_user)
     return render_template("index.html"), 200
 
 
