@@ -93,7 +93,7 @@ class TaskList extends Component {
                     <div className={style.Task_Action_Button_Container}>
                         <div className={[
                             style.Task_Update_Container,
-                            (this.state.update != item.id) && style.Inactive_Task_Update_Container
+                            (this.state.update !== item.id) && style.Inactive_Task_Update_Container
                         ].join(' ')}>
                             <div className={style.Task_Update_Wrapper}>
                                 <div className={style.Task_Update_Cancel_Wrapper} onClick={this.handleTaskUpdateCancel}></div>
