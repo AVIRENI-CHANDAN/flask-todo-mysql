@@ -33,7 +33,7 @@ class Dashboard extends Component {
                     {this.state.reload && (<NewTask updateParent={this.toogleRefresh} />)}
                 </div>
                 <div className={style.TaskListBox}>
-                    {this.state.reload && (<TaskList />)}
+                    {this.state.reload && (<TaskList updateParent={this.toogleRefresh} />)}
                 </div>
             </div>
         );

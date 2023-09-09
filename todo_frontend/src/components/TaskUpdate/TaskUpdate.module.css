@@ -1,0 +1,52 @@
+.Task_Update_Form_Box {
+    padding: 36px;
+    background-color: rgba(255, 255, 255, .75);
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.Task_Update_Form {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 12px;
+}
+
+.Form_Group {
+    flex: 1;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 12px;
+}
+
+.Form_Field {
+    flex: 1;
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+}
+
+.Form_Field label {
+    position: absolute;
+    top: -8px;
+    left: 2px;
+    flex: 1;
+    order: 1;
+    font-size: .5rem;
+}
+
+.Form_Field input,
+.Form_Field textarea {
+    flex: 1;
+    order: 2;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    resize: none;
+}
+
+.Form_Field input[type="text"],
+.Form_Field input[type="password"],
+.Form_Field input[type="date"],
+.Form_Field textarea {
+    padding: 8px;
+}

@@ -17,14 +17,18 @@
     display: flex;
     flex-flow: column nowrap;
     gap: 12px;
-    position: relative;
+    /* position: relative; */
+}
+
+.Task_Status_Title_Container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
 }
 
 .TaskStatus {
     content: '  ';
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    position: relative;
     padding: 0;
     margin: 0;
     font-size: .75em;
@@ -91,4 +95,74 @@
 
 .CreateDate::before {
     content: 'created on -';
+}
+
+.Task_Action_Button_Container {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 12px;
+    gap: 12px;
+    align-items: center;
+}
+
+.Task_Action_Button {
+    flex: 1 1 auto;
+    padding: 4px;
+    font-size: .75rem;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    height: 1.5rem;
+    transition: all .5s 200ms;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Task_Action_Button:hover {
+    box-shadow: 0 0 4px gray;
+    height: 1.75rem;
+}
+
+.Action_Update {
+    background-color: orange;
+}
+
+.Action_Delete {
+    background-color: red;
+}
+
+.Inactive_Task_Update_Container {
+    visibility: collapse;
+    display: none;
+}
+
+.Task_Update_Container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 3;
+    backdrop-filter: blur(12px);
+}
+
+.Task_Update_Cancel_Wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+}
+
+.Task_Update_Wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
 }
