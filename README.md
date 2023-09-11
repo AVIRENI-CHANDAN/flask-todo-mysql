@@ -15,4 +15,4 @@
 
 
 The application is built on flask as backend and react as frontend
-Deployed at [https://flask-todo-application.onrender.com/]
+Deployed at https://flask-todo-application.onrender.com/
