@@ -58,7 +58,7 @@ class TaskUpdate extends Component {
         form_data.append('completed', this.state.completed);
 
         const token = localStorage.getItem("access_token");
-        const response = await axios.post(TASK_UPDATE_ENDPOINT, form_data, {
+        await axios.post(TASK_UPDATE_ENDPOINT, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
