@@ -72,7 +72,7 @@ class NewTask extends Component {
             this.handleInputBlur(this);
             this.props.updateParent();
         } catch (error) {
-            console.error('Error:', error);
+            console.error(error);
         }
     };
 

@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import { ABOUT_PATH, BASE_PATH, USER_HOME, USER_LOGIN, USER_LOGOUT } from './components/Links';
 import Logout from './components/Logout/Logout'
+import AboutMe from './components/AboutMe/AboutMe';
 
 class App extends Component {
 	constructor(props) {
@@ -52,6 +53,7 @@ class App extends Component {
 							<Route path={USER_LOGIN} element={<Login updateParent={this.toggleRefresh} />} />
 							<Route path={USER_HOME} element={<Dashboard updateParent={this.toggleRefresh} />} />
 							<Route path={USER_LOGOUT} element={<Logout updateParent={this.toggleRefresh} />} />
+							<Route path={ABOUT_PATH} element={<AboutMe />} />
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>

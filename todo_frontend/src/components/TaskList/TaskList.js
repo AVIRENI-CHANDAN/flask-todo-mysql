@@ -29,11 +29,9 @@ class TaskList extends Component {
         }).then(response => {
             this.setState({ data: response.data, isLoading: false });
         }).catch(error => {
-            console.error('Error fetching data:', error);
+            console.error(error);
             this.setState({ next: USER_LOGIN });
         });
-
-        console.log("TaskList component loaded:", this.state);
     }
 
     async handleTaskDelete(event) {
@@ -46,25 +44,19 @@ class TaskList extends Component {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then(response => {
-            console.info(response);
         }).catch(error => {
-            console.error('Error deleting the task:', task_id, error);
+            console.error(error);
         });
         this.props.updateParent();
     }
 
     handleTaskUpdate(event) {
-        console.log("Update dataset:", event.target.dataset);
         const task_id = parseInt(event.target.dataset.key);
         this.setState({ update: task_id });
     }
+
     handleTaskUpdateCancel(event) {
         this.setState({ update: -1 });
-    }
-
-    componentDidUpdate() {
-        console.log('TaskList updated', this.state);
     }
 
     render() {

@@ -6,7 +6,6 @@ import { GET_TASK_ENDPOINT, TASK_UPDATE_ENDPOINT } from "../Links";
 class TaskUpdate extends Component {
     constructor(props) {
         super(props);
-        console.log("Task id:", this.props.task_id);
         this.state = {
             title: undefined,
             description: undefined,
@@ -17,14 +16,9 @@ class TaskUpdate extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
-    componentDidUpdate() {
-        console.log("Updated TaskUpdate", this.state);
-    }
-
     handleInputChange(event) {
-        console.log("Input update:", event);
         const field_name = event.target.name;
-        if (field_name === "title" || field_name === "description")
+        if (field_name === "title" || field_name === "description" || field_name === "due_date")
             this.setState({ [event.target.name]: event.target.value });
         if (field_name === "completed")
             this.setState((prevState) => ({ completed: !prevState.completed }));
@@ -42,22 +36,20 @@ class TaskUpdate extends Component {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log('TaskUpdate get response:', response.data);
             this.setState({
                 title: response.data.title,
                 description: response.data.description,
-                due_date: response.data.due_date,
+                due_date: (new Date(response.data.due_date)).toISOString().slice(0, 16),
                 completed: response.data.completed
             });
         }
         catch (error) {
-            console.error('Error fetching the task:', task_id, error);
+            console.error(error);
         }
     }
 
     async handleFormSubmit(event) {
         event.preventDefault();
-        console.log(event.target);
         const form_data = new FormData();
         form_data.append('task_id', this.props.task_id);
         form_data.append('title', this.state.title);
@@ -65,7 +57,6 @@ class TaskUpdate extends Component {
         form_data.append('due_date', this.state.due_date);
         form_data.append('completed', this.state.completed);
 
-        console.log("Form data", form_data);
         const token = localStorage.getItem("access_token");
         const response = await axios.post(TASK_UPDATE_ENDPOINT, form_data, {
             headers: {
@@ -73,7 +64,6 @@ class TaskUpdate extends Component {
                 Authorization: `Bearer ${token}`
             },
         });
-        console.log("Form update response", response);
         this.props.updateParent();
     }
 
@@ -95,7 +85,7 @@ class TaskUpdate extends Component {
                     </div>
                     <div className={style.Form_Group}>
                         <div className={style.Form_Field}>
-                            <input type="date" value={this.state.due_date} name="due_date" className={style.Form_Field_Input} onInput={this.handleInputChange} />
+                            <input type="datetime-local" value={this.state.due_date} name="due_date" className={style.Form_Field_Input} onInput={this.handleInputChange} />
                             <label htmlFor="due_date">due date</label>
                         </div>
                         <div className={style.Form_Field}>

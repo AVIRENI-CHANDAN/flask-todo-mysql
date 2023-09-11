@@ -1,0 +1,37 @@
+/* AboutMe.css */
+
+.about-me-container {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.about-me-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.loading-text {
+    font-size: 16px;
+    color: #555;
+}
+
+.error-text {
+    font-size: 16px;
+    color: red;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.info-link {
+    text-decoration: none;
+    color: #007bff;
+}
+
+/* Add more classes and styles as needed */

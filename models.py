@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
-from flask import current_app as app
+from datetime import datetime, timedelta
 
 db = SQLAlchemy()
 
@@ -35,7 +34,9 @@ class Task(db.Model):
     description = db.Column(db.Text, nullable=False)
     due_date = db.Column(db.DateTime, default=datetime.utcnow)
     completed = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.utcnow() + timedelta(days=7)
+    )
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )

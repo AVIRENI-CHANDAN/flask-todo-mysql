@@ -46,6 +46,17 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 jwt = JWTManager(app)
 
 
+@app.post("/about")
+def about_me():
+    about_me_info = {
+        "name": "Avireni Chandan",
+        "bio": "I am a passionate developer who loves building web applications.",
+        "email": "avireni.chandanchandu43657@gmail.com",
+        "website": "",
+    }
+    return jsonify(about_me_info)
+
+
 @app.get("/")
 @app.get("/login")
 @app.get("/about")
@@ -176,7 +187,9 @@ def update_task():
         task.title = form_data["title"]
         task.description = form_data["description"]
         due_date_str = form_data["due_date"]
-        due_date = datetime.strptime(due_date_str, "%a, %d %b %Y %H:%M:%S %Z")
+        # due_date = datetime.strptime(due_date_str, "%a, %d %b %Y %H:%M:%S %Z")
+        # Use the correct format for parsing the date string
+        due_date = datetime.strptime(due_date_str, "%Y-%m-%dT%H:%M")
         task.due_date = due_date.strftime("%Y-%m-%d %H:%M:%S")
         task.completed = form_data["completed"] == "true"
         print("Task updating")

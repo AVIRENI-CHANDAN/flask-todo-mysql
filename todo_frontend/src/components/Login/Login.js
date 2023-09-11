@@ -33,7 +33,7 @@ class Login extends Component {
                 localStorage.clear();
             }
         } catch (error) {
-            console.error('Error checking token:', error);
+            console.error(error);
         }
         this.props.updateParent();
     }
@@ -86,8 +86,8 @@ class Login extends Component {
                 next: response_body['next']
             });
         }
-        catch (err) {
-            console.error(err);
+        catch (error) {
+            console.error(error);
         }
     }
 
